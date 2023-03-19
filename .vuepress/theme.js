@@ -42,7 +42,7 @@ export default hopeTheme({
   // 侧边栏
   sidebar: Sidebar, //侧边栏配置
   //编辑页面
-  docsRepo: 'https://github.com/xwxr1323/xwxr_blog/tree/master/src', //编辑页面
+  docsRepo: 'https://github.com/xwxr1323/xwxr_blog/', //编辑页面
   backToTop: true, //到顶部 默认情况下将在下滑 300px 后显示或者是设置为一个数字以更改默认的触发距离
   
   blog: {
