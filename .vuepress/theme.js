@@ -42,7 +42,7 @@ export default hopeTheme({
   // 侧边栏
   sidebar: Sidebar, //侧边栏配置
   //编辑页面
-  docsRepo: 'https://github.com/xwxr1323/xwxr_blog/', //编辑页面
+  docsRepo: 'https://github.com/xwxr1323/xwxr_blog', //编辑页面
   backToTop: true, //到顶部 默认情况下将在下滑 300px 后显示或者是设置为一个数字以更改默认的触发距离
   
   blog: {
@@ -65,6 +65,8 @@ export default hopeTheme({
       showInMobile: true  //在移动端展示复制功能
     },
     blog: true,
+
+
     mdEnhance: {  //增强markdown
       vuePlayground: true,  //支持vue
       katex: true, // 使用 KaTeX 启用 TeX 支持
@@ -78,9 +80,14 @@ export default hopeTheme({
       codetabs: true,    //对代码块支持
       container: true,  //自定义容器
     },
+
+
     comment: {
       provider: "Waline",
       serverURL: 'https://blogxwxr.vercel.app/',
+    },
+    components: {
+      components:["BiliBili",]
     }
   },
 });
