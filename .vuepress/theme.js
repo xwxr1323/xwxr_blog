@@ -84,7 +84,7 @@ export default hopeTheme({
 
     comment: {
       provider: "Waline",
-      serverURL: 'https://blogxwxr.vercel.app/',
+      serverURL: 'https://commit.xwxr.top/',
     },
     components: {
       components:["BiliBili", "Badge","ArtPlayer"]
