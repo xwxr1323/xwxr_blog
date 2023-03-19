@@ -6,4 +6,8 @@ article: false
 timeline: false
 sidebar: false
 ---
-# 个人简介
+
+
+:::
+一个努力自学的大学牲
+:::

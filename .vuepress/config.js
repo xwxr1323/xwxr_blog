@@ -1,7 +1,7 @@
 import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 import { searchProPlugin } from "vuepress-plugin-search-pro";
-
+import vuepressPluginKanBanNiang from "@vuepress-reco/vuepress-plugin-kan-ban-niang";
 
 export default defineUserConfig({
   base: "/",
@@ -24,7 +24,7 @@ export default defineUserConfig({
           formatter: "标签：$content",
         },
       ],
-    }),
+    })
   ],
   theme,
 });

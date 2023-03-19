@@ -87,7 +87,7 @@ export default hopeTheme({
       serverURL: 'https://blogxwxr.vercel.app/',
     },
     components: {
-      components:["BiliBili",]
+      components:["BiliBili", "Badge","ArtPlayer"]
     }
   },
 });
