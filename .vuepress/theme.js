@@ -79,6 +79,16 @@ export default hopeTheme({
       tabs: true,         // 添加选项卡支持
       codetabs: true,    //对代码块支持
       container: true,  //自定义容器
+      // 启用 figure
+      figure: true,
+      // 启用图片懒加载
+      imgLazyload: true,
+      // 启用图片标记
+      imgMark: true,
+      // 启用图片大小
+      imgSize: true,
+      attrs: true,  //css属性
+      mark: true,
     },
 
 
