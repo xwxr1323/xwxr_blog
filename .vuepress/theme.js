@@ -89,6 +89,8 @@ export default hopeTheme({
       imgSize: true,
       attrs: true,  //css属性
       mark: true,
+      tasklist: true,
+      align: true,
     },
 
 
