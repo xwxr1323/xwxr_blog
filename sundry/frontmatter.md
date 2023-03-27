@@ -1,6 +1,7 @@
 ---
 data: 2023-03-19
 tag: [frontmatter,信息]
+excerpt: Frontmatter配置
 ---
 # :sunny: Frontmatter配置
 
@@ -58,3 +59,8 @@ tag: [frontmatter,信息]
 - 类型: `boolean`
 - 默认值: true
 是否在侧边栏显示当前页面
+
+## excerpt
+- 类型: `str`
+- 默认值: ''
+设置摘要
