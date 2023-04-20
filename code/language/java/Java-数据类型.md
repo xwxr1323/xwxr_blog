@@ -1,7 +1,7 @@
 ---
 category: 编程语言
 tag: Java
-order: 4
+order: 5
 excerpt: Java 数据类型
 ---
 # :frog: Java-数据类型
