@@ -106,3 +106,29 @@ Java会将字面量1.9转换为`int`类型，将小数部分删除。
 - 只针对于最近的操作数有效，例如`int x = (int)10*3.5`，Java会将10进行类型转换，需要加小括号提升优先级 `int x = (int)(10*3.5)`
 - `char`类型可以保存`int`的字面量，但不能保存`int`的变量，例如，`char x = 100;`但是`int m = 100;char x = m`会报错
 - `byte` `short`类型在进行运算时，当作int类型处理
+
+## 再探main方法
+
+我们知道，Java程序的入口是`main`方法，而`main`方法自带了一个参数，这个参数是什么意思呢，我们来看看这个参数。
+```java
+public class Main {
+    public static void main(String[] args) {
+        for (String arg : args) {
+            System.out.println(arg);
+        }
+    }
+}
+```
+我们使用命令行编译运行它
+```sh
+$ javac Main.java
+$ java Main     //无
+```
+
+我们可以看到并没有输出，这是因为这个参数是JVM接收用户的命令行输入。我们来看下面的例子。
+
+```sh
+$ javac Main.java
+$ java Main -version -qqq       //-version -qqq
+```
+我们看到打印了-version  -qqq，这样我们就可以根据传入的命令行参数不同，作出不同的响应。
