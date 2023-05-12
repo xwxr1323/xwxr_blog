@@ -156,7 +156,47 @@ public class Main {
     }
 }
 ```
-
+Java12开始，Java提供了一种新语法，不需要`break`语句。
+```java
+switch (key) {
+                case "1" -> System.out.println(1);
+                case "2" -> System.out.println(2);
+                case "3" -> System.out.println(3);
+                case "4" -> System.out.println(4);
+                case "5" -> System.out.println(5);
+                case "6" -> loop = false;
+            }
+```
+若需要多条语句则需要加上`{}`。
+```java
+public class Main {
+    public static void main(String[] args) {
+        String fruit = "apple";
+        switch (fruit) {
+        case "apple" -> System.out.println("Selected apple");
+        case "pear" -> System.out.println("Selected pear");
+        case "mango" -> {
+            System.out.println("Selected mango");
+            System.out.println("Good choice!");
+        }
+        default -> System.out.println("No fruit selected");
+        }
+    }
+}
+```
+若两个条件执行相同的语句则可以。
+```java
+public class Main {
+    public static void main(String[] args) {
+        String fruit = "apple";
+        switch (fruit) {
+            case "apple" -> 1;
+            case "pear", "mango" -> 2;
+            default -> 0;
+        }; 
+    }
+}
+```
 ## for语句
 当我们需要做某一些重复性的工作时，第一时间想到的便是循环，Java中提供了3中循环语句，第一种便是`for`语句。
 ```java
