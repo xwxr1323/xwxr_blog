@@ -389,3 +389,338 @@ BigInteger和Integer、Long一样，也是不可变类，并且也继承自Numbe
 - 转换为double：doubleValue()
 
 因此，通过上述方法，可以把BigInteger转换成基本类型。如果BigInteger表示的范围超过了基本类型的范围，转换时将丢失高位信息，即结果不一定是准确的。如果需要准确地转换成基本类型，可以使用intValueExact()、longValueExact()等方法，在转换时如果超出范围，将直接抛出ArithmeticException异常。
+## 常用工具类
+### Math
+`Math`类提供了大量静态方法帮助我们进行数学计算。
+```java
+Math.abs(-100); // 100
+Math.abs(-7.8); // 7.8
+Math.max(100, 99); // 100
+Math.min(1.2, 2.3); // 1.2
+Math.pow(2, 10); // 2的10次方=1024
+Math.sqrt(2); // 1.414... 根号2
+Math.exp(2); // 7.389...  e的2次方
+Math.log(4); // 1.386...  e为底
+Math.log10(100); // 2  10为底
+Math.sin(3.14); // 0.00159...
+Math.cos(3.14); // -0.9999...
+Math.tan(3.14); // -0.0015...
+Math.asin(1.0); // 1.57079...
+Math.acos(1.0); // 0.0
+double pi = Math.PI; // 3.14159...
+double e = Math.E; // 2.7182818...
+Math.sin(Math.PI / 6); // sin(π/6) = 0.5
+Math.random(); // 0.53907... 每次都不一样  0-1
+```
+### Random
+该类用来创建伪随机数，给定一个初始种子，产生的序列完全相同，如果不给，会以当前时间戳为种子，每次产生的也不相同
+```java
+Random r = new Random();
+r.nextInt(); // 2071575453,每次都不一样
+r.nextInt(10); // 5,生成一个[0,10)之间的int
+r.nextLong(); // 8811649292570369305,每次都不一样
+r.nextFloat(); // 0.54335...生成一个[0,1)之间的float
+r.nextDouble(); // 0.3716...生成一个[0,1)之间的double
+```
+这是没给定种子，以当前时间戳为种子，因此产生的也不相同。
+```java
+public class App {
+    public static void main(String[] args) {
+        Random r = new Random(1111);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(r.nextInt(100));
+        }
+        // 26, 6, 5, 69, 50...
+    }
+}
+```
+上面的例子以1111为种子，因此无论运行多少次，一定产生下面的结果
+
+### SecureRandom
+通过量子力学的原理产生不可预测的安全的随机数。
+```java
+SecureRandom sr = new SecureRandom();
+System.out.println(sr.nextInt(100));
+```
+## 日期和时间
+计算机表示的时间是以整数表示的时间戳存储的，即Epoch Time，Java使用long型来表示以毫秒为单位的时间戳，通过System.currentTimeMillis()获取当前时间戳。
+
+时间戳计算从1970年1月1日零点（格林威治时区／GMT+00:00）到现在所经历的秒数。
+```java
+1574208900 = 北京时间2019-11-20 8:15:00
+           = 伦敦时间2019-11-20 0:15:00
+           = 纽约时间2019-11-19 19:15:00
+```
+### Date
+Date存储了一个`long`类型的时间戳。
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 获取当前时间:
+        Date date = new Date();
+        //Date date = new Date(9875422); 传递时间戳进去得到对应时间
+        System.out.println(date.getYear() + 1900); // 必须加上1900
+        System.out.println(date.getMonth() + 1); // 0~11，必须加上1
+        System.out.println(date.getDate()); // 1~31，不能加1
+        // 转换为String:
+        System.out.println(date.toString());
+        // 转换为GMT时区:
+        System.out.println(date.toGMTString());
+        // 转换为本地时区:
+        System.out.println(date.toLocaleString());
+    }
+}
+```
+如果希望以本地格式输出，我们需要使用`SimpleDateFormat`进行转换
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 获取当前时间:
+        Date date = new Date();
+        var sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(sdf.format(date));
+    }
+}
+
+```
+### Calender
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 获取当前时间:
+        Calendar c = Calendar.getInstance();
+        int y = c.get(Calendar.YEAR);
+        int m = 1 + c.get(Calendar.MONTH);
+        int d = c.get(Calendar.DAY_OF_MONTH);
+        int w = c.get(Calendar.DAY_OF_WEEK);
+        int hh = c.get(Calendar.HOUR_OF_DAY);
+        int mm = c.get(Calendar.MINUTE);
+        int ss = c.get(Calendar.SECOND);
+        int ms = c.get(Calendar.MILLISECOND);
+        System.out.println(y + "-" + m + "-" + d + " " + w + " " + hh + ":" + mm + ":" + ss + "." + ms);
+    }
+}
+```
+如果像设置成特定的日期，必须清除所有字段
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 当前时间:
+        Calendar c = Calendar.getInstance();
+        // 清除所有:
+        c.clear();
+        // 设置2019年:
+        c.set(Calendar.YEAR, 2019);
+        // 设置9月:注意8表示9月:
+        c.set(Calendar.MONTH, 8);
+        // 设置2日:
+        c.set(Calendar.DATE, 2);
+        // 设置时间:
+        c.set(Calendar.HOUR_OF_DAY, 21);
+        c.set(Calendar.MINUTE, 22);
+        c.set(Calendar.SECOND, 23);
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(c.getTime()));
+        // 2019-09-02 21:22:23
+    }
+}
+```
+它没有提供专门的格式化方法，需要程序员自己组合。
+```java
+System.out.println((c.get(Calendar.YEAR)))
+```
+### LocalDateTime
+从Java 8开始，`java.time`包提供了新的日期和时间API
+- 本地日期和时间：`LocalDateTime`，`LocalDate`，`LocalTime`；
+- 带时区的日期和时间：`ZonedDateTime`；
+- 时刻：`Instant`；
+- 时区：`ZoneId`，`ZoneOffset`；
+- 时间间隔：`Duration`。
+- 以及一套新的用于取代`SimpleDateFormat`的格式化类型`DateTimeFormatter`。
+
+#### 用`LocalDateTime.now()`返回当前日期时间的对象
+```java
+public class Main {
+    public static void main(String[] args) {
+        LocalDate d = LocalDate.now(); // 当前日期
+        LocalTime t = LocalTime.now(); // 当前时间
+        LocalDateTime dt = LocalDateTime.now(); // 当前日期和时间
+        System.out.println(d); // 严格按照ISO 8601格式打印
+        System.out.println(t); // 严格按照ISO 8601格式打印
+        System.out.println(dt); // 严格按照ISO 8601格式打印
+        LocalDateTime dt = LocalDateTime.now(); // 当前日期和时间
+        LocalDate d = dt.toLocalDate(); // 转换到当前日期
+        LocalTime t = dt.toLocalTime(); // 转换到当前时间
+    }
+}
+```
+#### 当然，我们可以通过`of()`方法指定日期和时间
+```java
+// 指定日期和时间:
+LocalDate d2 = LocalDate.of(2019, 11, 30); // 2019-11-30, 注意11=11月
+LocalTime t2 = LocalTime.of(15, 16, 17); // 15:16:17
+LocalDateTime dt2 = LocalDateTime.of(2019, 11, 30, 15, 16, 17);
+LocalDateTime dt3 = LocalDateTime.of(d2, t2);
+```
+我们可以通过标准的字符串格式将字符串转换为时间.
+```java
+LocalDateTime dt = LocalDateTime.parse("2019-11-19T15:16:17");
+LocalDate d = LocalDate.parse("2019-11-19");
+LocalTime t = LocalTime.parse("15:16:17");
+```
+- 日期：yyyy-MM-dd
+- 时间：HH:mm:ss
+- 带毫秒的时间：HH:mm:ss.SSS
+- 日期和时间：yyyy-MM-dd'T'HH:mm:ss
+- 带毫秒的日期和时间：yyyy-MM-dd'T'HH:mm:ss.SSS
+
+#### 我们使用`DateTimeFormatter`将非标准格式的字符串解析。
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 自定义格式化:
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        System.out.println(dtf.format(LocalDateTime.now()));
+
+        // 用自定义格式解析:
+        LocalDateTime dt2 = LocalDateTime.parse("2019/11/30 15:16:17", dtf);
+        System.out.println(dt2);
+    }
+}
+
+```
+
+#### `LocalDateTime`提供了对日期和时间进行加减的方法。
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        LocalDateTime dt = LocalDateTime.of(2019, 10, 26, 20, 30, 59);
+        System.out.println(dt);
+        // 加5天减3小时:
+        LocalDateTime dt2 = dt.plusDays(5).minusHours(3);
+        System.out.println(dt2); // 2019-10-31T17:30:59
+        // 减1月:
+        LocalDateTime dt3 = dt2.minusMonths(1);
+        System.out.println(dt3); // 2019-09-30T17:30:59
+    }
+}
+```
+#### 还有直接进行调整的。
+- 调整年：withYear()
+- 调整月：withMonth()
+- 调整日：withDayOfMonth()
+- 调整时：withHour()
+- 调整分：withMinute()
+- 调整秒：withSecond()
+
+还有一些更为复杂的运算
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 本月第一天0:00时刻:
+        LocalDateTime firstDay = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+        System.out.println(firstDay);
+
+        // 本月最后1天:
+        LocalDate lastDay = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
+        System.out.println(lastDay);
+
+        // 下月第1天:
+        LocalDate nextMonthFirstDay = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
+        System.out.println(nextMonthFirstDay);
+
+        // 本月第1个周一:
+        LocalDate firstWeekday = LocalDate.now().with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
+        System.out.println(firstWeekday);
+    }
+}
+```
+#### 两个日期也可以进行比较
+```java
+public class Main {
+    public static void main(String[] args) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime target = LocalDateTime.of(2019, 11, 19, 8, 15, 0);
+        System.out.println(now.isBefore(target));
+        System.out.println(LocalDate.now().isBefore(LocalDate.of(2019, 11, 19)));
+        System.out.println(LocalTime.now().isAfter(LocalTime.parse("08:15:00")));
+    }
+}
+
+```
+#### Duration和Period
+`Duration`表示两个时刻的时间间隔，小时为最高单元，`Period`表示日期之间的天数，最小为多少天。
+```java
+public class Main {
+    public static void main(String[] args) {
+        LocalDateTime start = LocalDateTime.of(2019, 11, 19, 8, 15, 0);
+        LocalDateTime end = LocalDateTime.of(2020, 1, 9, 19, 25, 30);
+        Duration d = Duration.between(start, end);
+        System.out.println(d); // PT1235H10M30S
+
+        Period p = LocalDate.of(2019, 11, 19).until(LocalDate.of(2020, 1, 9));
+        System.out.println(p); // P1M21D
+    }
+}
+
+```
+### ZonedDateTime
+如果我们想用不同的时区来表示，就需要用到`ZonedDateTime`
+```java
+public class Main {
+    public static void main(String[] args) {
+        ZonedDateTime zbj = ZonedDateTime.now(); // 默认时区
+        ZonedDateTime zny = ZonedDateTime.now(ZoneId.of("America/New_York")); // 用指定时区获取当前时间
+        System.out.println(zbj);
+        System.out.println(zny);
+    }
+}
+```
+`ZoneId`是新的时区类，`now()`方法默认返回当前时区，若想用别的时区，需要传入`ZoneId`对象，用`ZoneId.of()`来指定时区。
+```java
+2023-05-13T16:26:13.551237400+08:00[Asia/Shanghai]
+2023-05-13T04:26:13.554226-04:00[America/New_York]
+
+```
+返回的是同一个时刻的不同时区时间。
+#### 转换时区
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 以中国时区获取当前时间:
+        ZonedDateTime zbj = ZonedDateTime.now(ZoneId.of("Asia/Shanghai"));
+        // 转换为纽约时间:
+        ZonedDateTime zny = zbj.withZoneSameInstant(ZoneId.of("America/New_York"));
+        System.out.println(zbj);
+        System.out.println(zny);
+    }
+}
+
+```
+### DateTimeFormatter
+使用了新的API我们就要使用新的格式化类。
+```java
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E, yyyy-MMMM-dd HH:mm", Locale.US);
+```
+在传递格式化字符时，我们也可以传递时区，他会按照时区的习惯进行格式化.
+```java
+public class Main {
+    public static void main(String[] args) {
+        ZonedDateTime zdt = ZonedDateTime.now();
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm ZZZZ");
+        System.out.println(formatter.format(zdt));
+
+        var zhFormatter = DateTimeFormatter.ofPattern("yyyy MMM dd EE HH:mm", Locale.CHINA);
+        System.out.println(zhFormatter.format(zdt));
+
+        var usFormatter = DateTimeFormatter.ofPattern("E, MMMM/dd/yyyy HH:mm", Locale.US);
+        System.out.println(usFormatter.format(zdt));
+    }
+}
+
+
+2019-09-15T23:16 GMT+08:00
+2019 9月 15 周日 23:16
+Sun, September/15/2019 23:16
+```
