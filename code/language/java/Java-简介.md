@@ -27,7 +27,7 @@ Java ME就和Java SE不同，它是一个针对嵌入式设备。嵌入式设备
 
 简单来说 Java EE > Java SE > Java ME
 
-因此 Java SE是核心也是基础，只要学会了Java SE，向上学习Java EE的API往Web方向走，向下学习Java ME的API往嵌入式方向走。
+因此 Java SE是核心也是基础，只要学会了Java SE，向上学习Java EE的API往Web方向走，向下学习Java ME的API往嵌入式方向走。我们这部分只包含Java SE的内容。
 ## Java 版本
 |时间|版本|
 |:-:|:-:|
