@@ -28,7 +28,7 @@ export const Navbar = navbar([
           {
             text: "后端",
             icon: "back-stage",
-            link: 'backtend'
+            link: 'backend'
           }
         ]
       },

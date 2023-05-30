@@ -643,9 +643,14 @@ list.add(123);
 // Integer:
 Integer first = (Integer) list.get(0);
 ```
-需要强制转型，而且`list.add("ll");`添加一个非`int`类型也不会报错，
+需要强制转型，而且`list.add("ll");`添加一个非`int`类型也不会报错
+```java
+ArrayList list = new ArrayList();
+list.add(123);
+list.add("www");//能正确编译
+```
 
-于是我们想为`String`专门写一个
+我们想如果不用`Object` 而是为`String`专门写一个
 ```java
 public class StringArrayList {
     private String[] array;
@@ -656,7 +661,14 @@ public class StringArrayList {
 }
 ```
 
-这样就解决了问题，但是`Integer`也需要写一个，别的类型也要写，那就需要好多好多资源。
+这样就解决了问题，当加入时add添加元素时会检查类型，如果不是`String`就会报错,读取时也不需要向下转型，默认就是`Object`
+```java
+StringArrayList list = new StringArrayList();
+list.add("www");
+list.add(123);//编译错误
+String n = list.get(0);
+```
+但是，我们仅仅完成了`String`，Java有那么多类`Integer` `Double`等等，还有我们自己定义的类，应该怎么办呢?
 
 于是我们需要一种模板，除了类型不同，其他的都是相同的。
 ```java
@@ -673,97 +685,205 @@ public class ArrayList<T> {
 ArrayList<String> strList = new ArrayList<String>();
 ArrayList<Float> floatList = new ArrayList<Float>();
 ```
-这就是泛型
+这就是泛型,使用`add`添加元素时，会自动检测是不是传递进去的类型，使用`get`获取元素时，会自动转换成你传递的类型，不需要再向下转型。
+```java
+ArrayList<String> strList = new ArrayList<String>();
+        strList.add("22");
+        strList.add("eee");
+        for (String s:strList){
+            System.out.println(s.getClass());
+            //class java.lang.String
+            //class java.lang.String
+        }
+```
 
 可以把`ArrayList<Integer>`向上转型为`List<Integer>`（T不能变！），但不能把`ArrayList<Integer>`向上转型为`ArrayList<Number>`（T不能变成父类）
 
-### 使用泛型
+到底什么是泛型呢
+```java
+public class ArrayList<T> {
+    private T[] array;
+}
+```
+我们使用`<T>`定义一个泛型，把成员那些不确定的类型变成`T`，也就是说，我不确定里面应该是`String` `Integer`还是什么类型，于是我把他变成`T`，变成一种通用的类型。在使用这个类时，在确定真正的类型
+```java
+ArrayList<String> list = new ArrayList<String>();
+/*
+public class ArrayList {
+    private String[] array;
+}
+*/
+ArrayList<Integer> list = new ArrayList<Integer>();
+/*
+public class ArrayList {
+    private Integer[] array;
+}
+*/
+```
+在实例化类时，给定了T真正的类型，在底层，用`String`把T替代。
 
-若定义了泛型，但是没有使用泛型
+### 使用泛型
+使用泛型时，我们需要把`<T>`替换成需要的类型
 ```java
 public class List<T>{
 
 }
-List list = new List();
+List<String> list = new List<String>();
 ```
-就是把`<T>`当作`Object`来使用
+在Java有一些集合类，他们定义了泛型，我们如果需要使用它，只需要传入需要的类型即可，下面的是一个使用ArrayList的例子
 
-使用泛型时，我们需要把`<T>`替换成需要的类型
 ```java
-// 无编译器警告:
-List<String> list = new ArrayList<String>();
+ArrayList<String> list = new ArrayList<String>();
 list.add("Hello");
 list.add("World");
+list.add(123); //报错
 // 无强制转型:
 String first = list.get(0);
 String second = list.get(1);
 ```
-`List<String> list = new ArrayList<>();`编译器会自动推断出后面的类型。
-### 编写泛型
+若定义了泛型，但是使用时没有传入指定类型，则默认为`Object`
 ```java
-public class Pair {
-    private String first;
-    private String last;
-    public Pair(String first, String last) {
-        this.first = first;
-        this.last = last;
-    }
-    public String getFirst() {
-        return first;
-    }
-    public String getLast() {
-        return last;
+ArrayList list = new ArrayList();
+list.add("World");
+list.add(123); //不报错
+for(Object o:list){
+    //必须用Object来接收，而且传入不同的类型不会报错
+    //需要向下转型
+    //因此一般我们都需要使用
+}
+```
+下面是要注意的点
+- 传入指定类型后，可以使用该类型和它的子类型
+- 只能传入引用类型
+- `List<String> list = new ArrayList<>();`编译器会自动推断出后面的类型。
+### 自定义泛型
+#### 泛型类
+自定义泛型类,泛型可以放在属性的类型，方法返回值的类型和方法参数类型上
+```java
+class Person<T,R>{
+    T a1;
+    R a2;
+    public T f1(R p1){
+
     }
 }
 ```
-我们怎么讲上面的类改成泛型类呢，很自然的，讲`String`全部换成`<T>`即可。记住要声明`<T>`
+这样我们就定义好了一个自定义泛型类，它真正的类型是在创建实例时确定的
 ```java
-public class Pair<T> {
-    private T first;
-    private T last;
-    public Pair(T first, T last) {
-        this.first = first;
-        this.last = last;
-    }
-    public T getFirst() {
-        return first;
-    }
-    public T getLast() {
-        return last;
+Person<String,Integer> p1 = new Person<String,Integer>();
+```
+本质上就是编译器在编译时，创建实例时将`T`替换成`String`，`R`替换成`Integer`.
+
+- 静态成员不能使用泛型，因为静态成员是在类加载的时候就创建的，不能确定这个时候的类型
+```java
+class Person<T>{
+    static T a1;//报错
+    static T f1(){};//报错
+}
+```
+- 使用泛型的数组不能初始化，因为只有在实例化时才知道里面元素的类型
+#### 泛型接口
+```java
+interface 接口名<T,R...>{
+
+}
+```
+- 静态成员同样不允许使用泛型
+- 接口的类型在`继承接口` `实现接口`时确定
+```java
+interface IA<T>{
+    void f1(T t);
+}
+interface IB extends IA<String>{
+    
+}
+class B implements IA<Integer>{
+
+    @Override
+    public void f1(Integer integer) {
+        
     }
 }
 ```
-静态方法使用泛型要使用其他类型
+
+继承接口时，也可以使用`interface IB<T> extends IA<T>`让实现IB的类去指定类型。
+#### 自定义泛型方法
+
+我们可以在普通类中定义一个泛型方法，这个方法会在被调用时确定类型。
+```java
+class Person{
+    public <T> void eat(){
+        T a1;
+        System.out.println(a1.getClass());
+    }
+}
+```
+在修饰符后面接`<T,R...>`来定义一个泛型方法，在方法名后面`eat(T a,R x)`是使用泛型。
+```java
+Person p1 = new Person();
+p1.eat("l");//String
+p1.eat(1); //Integer
+```
+### 泛型的继承和通配符
+
+一般来说`Object o = "sss"`，父类的引用是可以指向子类的，而泛型是没有继承的.
+```java
+ArrayList<Object> list = new ArrayList<String>()//报错
+```
+这是不允许的。
+```java
+List<String> list = new ArrayList<String>()//报错
+```
+由于ArrayList实现了List，我们可以用List指向ArrayList，而`<T>`必须一样，不能继承
+
+我们在定义一个方法去接收泛型时，怎么保证能接收那些呢。
+- `<?>`支持任意类型
+- `<?extends A>`支持A类和A的子类
+- `<?super A>`支持A类及A的父类
 
 ```java
-public class Pair<T> {
-    private T first;
-    private T last;
-    public Pair(T first, T last) {
-        this.first = first;
-        this.last = last;
+public static void pfx(List<?> l){
+        
     }
-    public T getFirst() { ... }
-    public T getLast() { ... }
-
-    // 静态泛型方法应该使用其他类型区分:
-    public static <K> Pair<K> create(K first, K last) {
-        return new Pair<K>(first, last);
-    }
-}
 ```
-如果需要使用多种类型
+上面的方法可以接收任意List泛型
 ```java
-public class Pair<T, K> {
-    private T first;
-    private K last;
-    public Pair(T first, K last) {
-        this.first = first;
-        this.last = last;
-    }
-    public T getFirst() { ... }
-    public K getLast() { ... }
-}
-
-Pair<String, Integer> p = new Pair<>("test", 123);
+List<String> list = new ArrayList<String>();
+List<Object> list2 = new ArrayList<Object>();
+List<Integer> list3 = new ArrayList<Integer>();
+pfx(list);
+pfx(list2);
+pfx(list3);
 ```
+上面三种都可以
+
+```java
+public static void pfx(List<?extends AA> l){}
+```
+那么只有AA及其子类才能当作参数传递进去
+```java
+public class List_ {
+    public static void main(String[] args) {
+
+        List<String> list = new ArrayList<String>();
+        List<AA> list2 = new ArrayList<AA>();
+        List<BB> list3 = new ArrayList<BB>();
+        pfx(list);//报错
+        pfx(list2);
+        pfx(list3);
+    }
+    public static void pfx(List<?extends AA> l){
+
+    }
+}
+class AA{
+    
+}
+class BB extends AA{
+    
+}
+```
+## JUint
+当方法被`@Test`修饰，可以直接允许，不需要创建实例。
+
+![](/Java/33.png)
