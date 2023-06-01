@@ -5,4 +5,6 @@ data: 2023-03-19
 article: false
 timeline: false
 ---
-<AutoCatalog />
+::: info
+前端三剑客:`HTML` `CSS` `JavaScript`
+:::

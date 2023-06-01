@@ -9,7 +9,7 @@ export const Navbar = navbar([
   {
     text: "随笔",
     icon: "note",
-    link: "/essay"
+    link: "/essay/"
   },
   {
     text: "Code",
@@ -23,12 +23,12 @@ export const Navbar = navbar([
           {
             text: "前端",
             icon: "flex",
-            link: 'frontend'
+            link: 'frontend/'
           },
           {
             text: "后端",
             icon: "back-stage",
-            link: 'backend'
+            link: 'backend/'
           }
         ]
       },
@@ -65,12 +65,12 @@ export const Navbar = navbar([
           {
             text: "数据结构",
             icon: "any",
-            link: 'structure'
+            link: 'structure/'
           },
           {
-            text: "Leetcode",
+            text: "算法",
             icon: "condition",
-            link: 'leetcode'
+            link: '算法/'
           }
         ]
       },
@@ -94,17 +94,17 @@ export const Navbar = navbar([
       {
         text: "计算机组成原理",
         icon: "IO",
-        link: 'compose'
+        link: 'compose/'
       },
       {
         text: "计算机网络",
         icon: "http",
-        link: 'network'
+        link: 'network/'
       },
       {
         text: "Linux",
         icon: "linux",
-        link: 'linux'
+        link: 'linux/'
       },
       {
         text: "更多",
@@ -121,24 +121,24 @@ export const Navbar = navbar([
       {
         text: "高数",
         icon: "function",
-        link: 'advanced'
+        link: 'advanced/'
       },
       {
         text: "线代",
         icon: "format",
-        link: 'line'
+        link: 'line/'
       },
       {
         text: "概率",
         icon: "diagram",
-        link: 'prob'
+        link: 'prob/'
       }
     ]
   },
   {
     text: "杂项",
     icon: "context",
-    link: "/sundry",
+    link: "/sundry/",
   },
   {
     text: '关于我',
