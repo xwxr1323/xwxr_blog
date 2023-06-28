@@ -4,7 +4,7 @@ category: backend
 
 tag: Java
 
-order: 1
+order: 3
 
 excerpt: Web基础
 
@@ -121,3 +121,46 @@ import jakarta.servlet.*;
 
 - 使用Servlet<=4.0时，选择Tomcat 9.x或更低版本；
 - 使用Servlet>=5.0时，选择Tomcat 10.x或更高版本。
+
+## 安装和启动Tomcat
+这里以安装Tomcat10版本为例.[点击此处下载Tomcat10](https://tomcat.apache.org/download-10.cgi)
+
+解压(尽量不用中文路径)
+
+![](/backend/26.png)
+
+打开bin目录双击`startup.bat`。打开浏览器输入`localhost:8080`若出现下面的场景，则启动成功
+
+![](/backend/27.png)
+
+- 双击`startup.bat`时闪退  是因为没有配置环境变量.配置一个变量名为`JAVA_HOME`,值为jdk的安装目录(不要带bin)
+
+![](/backend/28.png)
+
+- 若提示端口被占用，可以修改启动时的端口。打开conf下的`server.xml`配置文件，将端口号改成你想要的
+
+![](/backend/29.png)
+
+![](/backend/30.png)
+
+### idea配置tomcat
+
+新建项目或模块。选择Java EE
+
+![](/backend/31.png)
+
+配置启动项
+
+![](/backend/32.png)
+
+添加tomcat启动
+
+![](/backend/33.png)
+
+希望把那个项目部署到tomcat就添加哪个
+
+![](/backend/34.png)
+
+最后启动即可。
+
+![](/backend/35.png)

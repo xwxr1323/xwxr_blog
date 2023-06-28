@@ -148,6 +148,7 @@ select column_name as 别名 from tablename
 select `name`,(chinese+english+math) as total from student;
 ```
 3. where
+
 |运算符|例子|
 |:-:|:-:|
 |`>` `<` `<=` `>=` `=` `<>` `!=`|大于、小于、大于(小于)等于、不等于|
