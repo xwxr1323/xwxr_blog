@@ -144,5 +144,10 @@ export const Navbar = navbar([
     text: '关于我',
     icon: 'info',
     link: '/intro.html'
-  }
+  },
+  {
+    text: "小冉",
+    icon: "linter",
+    link: "/xr/"
+  },
 ]);

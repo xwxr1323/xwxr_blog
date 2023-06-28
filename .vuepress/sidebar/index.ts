@@ -6,4 +6,5 @@ export const Sidebar = sidebar({
     "/essay/": 'structure',
     "/math/": 'structure',
     "/sundry/": 'structure',
+    "/xr/": 'structure',
 });

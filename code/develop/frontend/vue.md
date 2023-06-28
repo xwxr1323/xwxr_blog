@@ -44,7 +44,7 @@ new Vue({
 2. 事件的回调需要配置在methods对象中，最终会在vm上；
 3. methods中配置的函数，不要用箭头函数！否则this就不是vm了；
 4. methods中配置的函数，都是被Vue所管理的函数，this的指向是vm 或 组件实例对象；
-5. @click="demo" 和 @click="demo($event)" 效果一致，但后者可以传参；默认传event参数，若给了别的参数，event就没了，所以可以传`$event`来防止event消失
+5. `@click="demo"` 和 `@click="demo($event)"` 效果一致，但后者可以传参；默认传event参数，若给了别的参数，event就没了，所以可以传`$event`来防止event消失
 #### 修饰符
 Vue中的事件修饰符：
 1. prevent：阻止默认事件（常用）；
@@ -53,7 +53,7 @@ Vue中的事件修饰符：
 4. capture：使用事件的捕获模式；
 5. self：只有event.target是当前操作的元素时才触发事件；
 6. passive：事件的默认行为立即执行，无需等待事件回调执行完毕；
-```vue
+```js
 @click.stop
 ```
 对于键盘事件，有下面的修饰符
@@ -968,7 +968,7 @@ export default {
 对于以对象形式声明中的每个属性，key 是 prop 的名称，而值则是该 prop 预期类型的构造函数。比如，如果要求一个 prop 的值是 number 类型，则可使用 Number 构造函数作为其声明的值。
 
 2. 组合式
-在使用 <script setup> 的单文件组件中，props 可以使用 defineProps() 宏来声明：
+在使用 `<script setup> `的单文件组件中，props 可以使用 defineProps() 宏来声明：
 
 ```vue
 <script setup>
