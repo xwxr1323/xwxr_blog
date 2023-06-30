@@ -108,9 +108,9 @@ TimeStamp在Insert和update时，mysql会自动更新值，需要配置。
 
 ### CRUD
 ####  `insert` 添加数据
-    - `insert into xxx values (值...)`可以用这个方式为所有字段添加值
-    - 字符和日期型要用`''`单引号
-    - `insert into xxx() values ()()()`可以添加多条记录
+- `insert into xxx values (值...)`可以用这个方式为所有字段添加值
+- 字符和日期型要用`''`单引号
+- `insert into xxx() values (),(),()`可以添加多条记录
 ```sql
 insert into xxx (列名...) values (值...)
 ```
